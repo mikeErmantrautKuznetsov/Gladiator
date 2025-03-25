@@ -4,19 +4,17 @@
     {
         static void Main(string[] args)
         {
-            MainMenu menu = new MainMenu();
-            SkillTree skillTree = new SkillTree();
+            PlayController playController = new PlayController();
             FightOnArena fighterInArena = new FightOnArena();
 
-            Console.WriteLine("Приветствую негодяи всех мастей и сорвиголовы! Сегодня вас ждут кровавое зрелище! Время выбрать бойцов!. \n" +
-                "Для продолжение обратитесь в консоль и нажмите любую кнопку.");
+            Console.WriteLine("Приветствую негодяи всех мастей и сорвиголовы! Сегодня вас ждут кровавое зрелище!");
             Console.ReadKey();
 
-            menu.Display();
+            playController.ListFighter();
 
-            bool _exitProgram = false;
+            bool exitProgram = false;
 
-            while (_exitProgram != true)
+            while (exitProgram != true)
             {
                 Console.WriteLine();
                 Console.WriteLine("Выберите действия: " +
@@ -25,39 +23,30 @@
                 Console.WriteLine();
 
                 string choiceCommand = Console.ReadLine();
-                if (int.TryParse(choiceCommand, out int _choiceCommand))
+
+                if (int.TryParse(choiceCommand, out int command))
                 {
-                    switch (_choiceCommand)
+                    switch (command)
                     {
                         case (int)CommandConsole.StartFight:
                             Console.WriteLine();
                             Console.WriteLine("Напишите номер понравившегося бойца:");
                             int firstCharacter = Convert.ToInt32(Console.ReadLine());
-                            if (menu.TryGetFighter(firstCharacter, out DataFighter fighterFirst))
-                            {
-                                fighterInArena.AddFighter(firstCharacter, fighterFirst);
-                                skillTree.Character(firstCharacter);
-                            }
+                            playController.ChoiceFighter(firstCharacter);
                             Console.WriteLine();
                             Console.WriteLine("Выберите соперника:");
                             int secondCharacter = Convert.ToInt32(Console.ReadLine());
-                            if (menu.TryGetFighter(secondCharacter, out DataFighter fighterSecond))
-                            {
-                                fighterInArena.AddFighter(secondCharacter, fighterSecond);
-                                skillTree.Character(secondCharacter);
-                            }
+                            playController.ChoiceFighter(secondCharacter);
                             Console.WriteLine();
                             Console.WriteLine("Бойцы на арене:");
                             fighterInArena.Display();
                             Console.WriteLine("Начала сражения:");
-                            fighterInArena.Fight(firstCharacter, secondCharacter);
-                            Console.Clear();
-                            menu.Display();
+                            playController.Fight(firstCharacter, secondCharacter);
                             break;
                         case (int)CommandConsole.EndFight:
                             Console.WriteLine("Выход из программы...");
                             Thread.Sleep(1000);
-                            _exitProgram = true;
+                            exitProgram = true;
                             break;
                         default:
                             break;
@@ -68,8 +57,8 @@
     }
 }
 
-enum CommandConsole
+public enum CommandConsole
 {
-    StartFight = 1, 
-    EndFight = 2
+    StartFight = 1,
+    EndFight
 }

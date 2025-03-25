@@ -1,53 +1,51 @@
 ﻿namespace GladiatorFights
 {
-    public class SkillTree : SpecialForce
+    public class SkillTree
     {
-        private readonly MainMenu Menu = new MainMenu();
-        RandomRangeClass Random = new RandomRangeClass();
+        private readonly ListCharacters _listCharacters = new ListCharacters();
+
         public void Character(int needCharacter)
         {
-            if (Menu.TryGetFighter(needCharacter, out DataFighter fighter))
+            if (_listCharacters.TryGetFighter(needCharacter, out DataFighter fighter))
             {
                 Console.WriteLine($"\nИмя:{fighter.Name}. " +
-                    $"Броня:{fighter.Armor}. " +
                     $" Национальность:{fighter.National}. " +
+                    $" Броня:{fighter.Armor}. " +
                     $" Здоровье:{fighter.Health}. " +
                     $" Урон:{fighter.Damage}. ");
                 Console.WriteLine();
 
-                int randomPower = Random.GenerateRandom(1, 4);
+                AddForce(needCharacter);
+            }
+        }
 
-                bool skew = true;
-                bool resultDamage = true;
+        public void AddForce(int needForce)
+        {
+            ISpecialPower specialPower = new PowerCharacters();
 
-                switch(randomPower)
-                {
-                    case (int)SpecialPower.DoubleDamage:
-                        DoubleDamage(fighter.Damage, fighter.Damage);
-                        Console.WriteLine("Двойной урон.");
-                        break;
-                    case (int)SpecialPower.ChanceSkew:
-                        ChanceSkew(skew, fighter.Damage);
-                        Console.WriteLine("Шанс на уклонение.");
-                        break;
-                    case (int)SpecialPower.ChanceDoubleDamage:
-                        ChanceDoubleDamage(resultDamage, fighter.Damage);
-                        Console.WriteLine("Шанс на двойной урон.");
-                        break;
-                    case (int)SpecialPower.FireBall:
-                        FireBall("Огненный шар", "Огненный шар", fighter.Damage);
-                        Console.WriteLine("Огненный шар.");
-                        break;
-                }
+            switch (needForce)
+            {
+                case (int)SpecialPower.DoubleDamage:
+                    specialPower.DamagePower(new DoubleDamage());
+                    break;
+                case (int)SpecialPower.ChanceSkew:
+                    specialPower.DamagePower(new ChanceSkew());
+                    break;
+                case (int)SpecialPower.ChanceDoubleDamage:
+                    specialPower.DamagePower(new ChanceDoubleDamage());
+                    break;
+                case (int)SpecialPower.FireBall:
+                    specialPower.DamagePower(new FireBall());
+                    break;
             }
         }
     }
 }
 
-enum SpecialPower
+public enum SpecialPower
 {
     DoubleDamage = 1,
     ChanceSkew,
     ChanceDoubleDamage,
-    FireBall,
+    FireBall
 }

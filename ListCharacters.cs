@@ -1,18 +1,18 @@
 ﻿namespace GladiatorFights
 {
-    public class MainMenu
+    public class ListCharacters
     {
-        private Dictionary<int, DataFighter> champions = new Dictionary<int, DataFighter>()
+        private Dictionary<int, DataFighter> _champions = new Dictionary<int, DataFighter>()
         {
-            {1, new Character("Убийца", "Орк", 100, 20, 30) },
-            {2, new Character("Святоша", "Эльф", 100, 20, 15) },
-            {3, new Character("Олег", "Человек", 100, 20, 10) },
-            {4, new Character("Потрошитель", "Берсерк", 100, 20, 25) },
+            {1, new DataFighter("Костя", "Человек", 100, 10, 15 ) },
+            {2, new DataFighter("Крушитель", "Орк", 100, 15, 30 ) },
+            {3, new DataFighter("Белоснежка", "Эльф", 100, 10, 20 ) },
+            {4, new DataFighter("Омни-мэн", "Вильтрумит", 10000, 100, 1000 ) }
         };
 
         public void Display()
         {
-            foreach(KeyValuePair<int, DataFighter> keyValuePair in champions)
+            foreach (KeyValuePair<int, DataFighter> keyValuePair in _champions)
             {
                 Console.WriteLine($"\nНомер:{keyValuePair.Key}. " +
                     $"Имя:{keyValuePair.Value.Name}. " +
@@ -21,8 +21,6 @@
                     $"\nБроня:{keyValuePair.Value.Armor}. " +
                     $" Урон:{keyValuePair.Value.Damage}. ");
                 Console.WriteLine();
-
-                keyValuePair.Value.Health = 100;
             }
         }
 
@@ -30,9 +28,9 @@
         {
             fighter = null;
 
-            if (champions.ContainsKey(id))
+            if (_champions.ContainsKey(id))
             {
-                fighter = champions[id];
+                fighter = _champions[id];
                 return true;
             }
             return false;

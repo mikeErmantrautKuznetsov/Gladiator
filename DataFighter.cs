@@ -2,17 +2,20 @@
 {
     public class DataFighter
     {
-        public string Name { get; set; }
-        public string National { get; set; }
+        public string Name { get; private set; }
+        public string National { get; private set; }
 
         public int Health { get; set; }
         public int Armor { get; set; }
         public int Damage { get; set; }
 
-        public DataFighter(string Name, string National, int Health, int Armor, int Damage)
+        public DataFighter(string name, string national, int health, int armor, int damage)
         {
-            this.Name = Name; this.National = National; this.Health = Health; 
-            this.Armor = Armor; this.Damage = Damage;
+            Name = name;
+            National = national;
+            Health = health;
+            Armor = armor;
+            Damage = damage;
         }
     }
 }
